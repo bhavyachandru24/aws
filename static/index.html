@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Storage Portal</title>
+    <!-- Modern Typography: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating Alert Container -->
+    <div id="alert-container" class="alert-container"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 class="app-title">Resume Storage Portal</h1>
+            <p class="app-subtitle">Secure enterprise repository for resume document management</p>
+        </header>
+
+        <main class="app-main">
+            <!-- Upload Card -->
+            <section class="upload-section">
+                <div class="card upload-card">
+                    <h2 class="card-title">Upload Resume</h2>
+                    <p class="card-description">Select or drag & drop a file. Allowed formats: PDF, DOC, DOCX. Max size: 10 MB.</p>
+                    
+                    <form id="upload-form" class="upload-form">
+                        <div id="drop-zone" class="drop-zone">
+                            <svg class="upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                            <span class="drop-text">Drag and drop your file here, or <span class="browse-link">browse</span></span>
+                            <span id="selected-file-name" class="selected-file-name">No file selected</span>
+                            <input type="file" id="file-input" name="file" accept=".pdf,.doc,.docx" class="file-input">
+                        </div>
+                        <button type="submit" id="submit-btn" class="btn btn-primary" disabled>
+                            <span class="btn-text">Upload File</span>
+                            <span class="spinner btn-spinner" id="btn-spinner"></span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Table Inventory Section -->
+            <section class="inventory-section">
+                <div class="inventory-header">
+                    <h2 class="section-title">Resume Repository</h2>
+                    <!-- Search Filter -->
+                    <div class="search-wrapper">
+                        <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" id="search-input" placeholder="Search by filename..." aria-label="Search resumes">
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="table-container">
+                    <table id="resumes-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Document Name</th>
+                                <th scope="col">Upload Date</th>
+                                <th scope="col">File Size</th>
+                                <th scope="col" class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resumes-list">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- Table Loading Spinner -->
+                    <div id="table-loading" class="table-loading">
+                        <span class="spinner table-spinner"></span>
+                        <p>Fetching documents...</p>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="empty-state hidden">
+                        <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p id="empty-message">No resumes available in the repository.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer-bar">
+            <p>&copy; 2026 Resume Storage Portal. Powered by AWS S3 & EC2.</p>
+        </footer>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <h3 class="modal-title">Delete Document</h3>
+            <p class="modal-message">Are you sure you want to permanently delete this resume from S3 and the database? This action cannot be undone.</p>
+            <div class="modal-actions">
+                <button type="button" id="confirm-cancel" class="btn btn-secondary">Cancel</button>
+                <button type="button" id="confirm-delete" class="btn btn-danger">
+                    <span class="btn-text">Confirm Delete</span>
+                    <span class="spinner btn-spinner" id="confirm-spinner"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
