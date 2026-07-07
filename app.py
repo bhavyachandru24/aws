@@ -7,6 +7,10 @@ import botocore.exceptions
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
+
+# Load Environment Variables from .env file
+load_dotenv()
 
 # Initialize Flask Application
 app = Flask(__name__, static_folder='static', static_url_path='')
